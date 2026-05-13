@@ -8,16 +8,18 @@ export const metadata: Metadata = {
     "AI-assisted accessibility scanning, remediation, and reporting dashboard.",
 };
 
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>
+        <ClerkProvider publishableKey={clerkPublishableKey}>{children}</ClerkProvider>
+      </body>
+    </html>
   );
 }
