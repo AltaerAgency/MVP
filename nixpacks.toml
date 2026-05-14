@@ -8,7 +8,7 @@ nixPkgs = ["nodejs_20"]
 cmds = ["npm install --legacy-peer-deps"]
 
 [phases.build]
-cmds = ["npx prisma generate", "npm run build"]
+cmds = ["npx prisma generate", "NODE_ENV=production npm run build"]
 
 [start]
 cmd = "npx prisma migrate deploy && npm start"
