@@ -2,7 +2,7 @@
 NODE_ENV = "production"
 
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+nixPkgs = ["nodejs_20", "openssl"]
 
 [phases.install]
 cmds = ["npm install --legacy-peer-deps"]
@@ -11,4 +11,4 @@ cmds = ["npm install --legacy-peer-deps"]
 cmds = ["npx prisma generate", "NODE_ENV=production npm run build"]
 
 [start]
-cmd = "npx prisma migrate deploy && npm start"
+cmd = "npx prisma db push --accept-data-loss && node .next/standalone/server.js"
