@@ -1,19 +1,12 @@
-import Link from "next/link";
-
+import { CreateOrganization } from "@clerk/nextjs";
 export default function OnboardingPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
-      <div className="max-w-xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-sm font-medium uppercase tracking-wide text-blue-700">MVP setup</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Welcome to MVP</h1>
-        <p className="mt-3 text-slate-600">
-          Your account is ready. The next step is to connect your organization, add websites,
-          and begin tracking accessibility scans and remediation work.
-        </p>
-        <Link href="/dashboard" className="mt-6 inline-flex rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700">
-          Go to dashboard
-        </Link>
+    <div style={{ minHeight: "100vh", background: "#fdf8f3", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", padding: 24 }}>
+      <div style={{ marginBottom: 24, textAlign: "center" }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: "#2d1f14", letterSpacing: "-.5px", marginBottom: 6 }}>Create your organization</h1>
+        <p style={{ fontSize: 14, color: "#7a6055" }}>Your organization is the home for all your sites, scans, and team members.</p>
       </div>
-    </main>
+      <CreateOrganization afterCreateOrganizationUrl="/dashboard" />
+    </div>
   );
 }

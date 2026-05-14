@@ -3,9 +3,29 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  --bg: #fdf8f3;
+  --bg-card: rgba(224, 120, 48, 0.08);
+  --border: rgba(220, 100, 30, 0.15);
+  --orange: #e07830;
+  --orange-mid: #e89050;
+  --orange-light: #f0b080;
+  --orange-pale: #f8d8b8;
+  --text-primary: #2d1f14;
+  --text-secondary: #7a6055;
+  --text-muted: #b89880;
+  --text-faint: #c4b0a0;
 }
-
+* { box-sizing: border-box; }
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(220,100,30,.2); border-radius: 3px; }

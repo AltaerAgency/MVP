@@ -1,21 +1,22 @@
 import Link from "next/link";
-
+const card = { background:"rgba(224,120,48,0.08)", border:"1px solid rgba(220,100,30,0.15)", borderRadius:16, padding:20 };
 export default function SettingsPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm font-medium uppercase tracking-wide text-blue-700">Settings</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Workspace settings</h1>
-        <p className="mt-2 text-slate-600">Manage team access, billing, and organization preferences.</p>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/settings/members" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:bg-slate-50">
-          <h2 className="font-semibold text-slate-900">Team members</h2>
-          <p className="mt-2 text-sm text-slate-500">Invite users and manage roles.</p>
+    <div>
+      <p style={{fontSize:11,fontWeight:600,color:"#e07830",letterSpacing:".05em",textTransform:"uppercase",marginBottom:4}}>Settings</p>
+      <h1 style={{fontSize:32,fontWeight:700,color:"#2d1f14",letterSpacing:-.5,marginBottom:20}}>Workspace settings</h1>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+        <Link href="/settings/members" style={{...card,textDecoration:"none",display:"block"}}>
+          <div style={{display:"flex",gap:12,alignItems:"flex-start"}}>
+            <div style={{width:36,height:36,borderRadius:9,background:"rgba(224,120,48,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}><i className="ti ti-users" style={{fontSize:18,color:"#e07830"}} aria-hidden="true"/></div>
+            <div><div style={{fontSize:14,fontWeight:600,color:"#2d1f14"}}>Team members</div><div style={{fontSize:12,color:"#a08070",marginTop:2}}>Invite and manage team roles</div></div>
+          </div>
         </Link>
-        <Link href="/settings/billing" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:bg-slate-50">
-          <h2 className="font-semibold text-slate-900">Billing</h2>
-          <p className="mt-2 text-sm text-slate-500">Manage plans and payment settings.</p>
+        <Link href="/settings/billing" style={{...card,textDecoration:"none",display:"block"}}>
+          <div style={{display:"flex",gap:12,alignItems:"flex-start"}}>
+            <div style={{width:36,height:36,borderRadius:9,background:"rgba(224,120,48,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}><i className="ti ti-credit-card" style={{fontSize:18,color:"#e07830"}} aria-hidden="true"/></div>
+            <div><div style={{fontSize:14,fontWeight:600,color:"#2d1f14"}}>Billing</div><div style={{fontSize:12,color:"#a08070",marginTop:2}}>Manage plans and payment</div></div>
+          </div>
         </Link>
       </div>
     </div>

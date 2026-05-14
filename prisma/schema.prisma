@@ -1,51 +1,186 @@
 generator client {
   provider = "prisma-client-js"
 }
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String?
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Organization {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Site {
-  id        String   @id @default(cuid())
-  name      String
-  url       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Scan {
-  id        String   @id @default(cuid())
-  url       String
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Issue {
   id          String   @id @default(cuid())
-  title       String
-  description String?
-  severity    String   @default("medium")
-  status      String   @default("open")
+  clerkUserId String   @unique
+  email       String   @unique
+  name        String?
+  avatarUrl   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  memberships Membership[]
+  auditEvents AuditEvent[]
+  approvedFixes Fix[] @relation("FixApprovedBy")
+}
+model Organization {
+  id         String   @id @default(cuid())
+  clerkOrgId String   @unique
+  name       String
+  slug       String   @unique
+  planId     String   @default("trial")
+  planStatus String   @default("trialing")
+  trialEndsAt DateTime?
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String? @unique
+  quotaPagesPerMonth Int @default(500)
+  quotaPdfsPerMonth  Int @default(50)
+  quotaSitesMax      Int @default(3)
+  quotaSeatsMax      Int @default(5)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+  memberships  Membership[]
+  sites        Site[]
+  documents    Document[]
+  scans        Scan[]
+  auditEvents  AuditEvent[]
+  usageRecords UsageRecord[]
+}
+model Membership {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime     @default(now())
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+}
+model Site {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  baseUrl        String
+  cmsType        String?
+  lastScanAt     DateTime?
+  lastScore      Int?
+  openIssues     Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+  scans          Scan[]
+  @@index([organizationId])
+}
+model Document {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  filename       String
+  mimeType       String
+  fileSize       Int
+  storageKey     String
+  fileHash       String
+  scanStatus     String       @default("pending")
+  lastScore      Int?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  scans          Scan[]
+  @@index([organizationId])
+}
+model Scan {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  siteId         String?
+  site           Site?        @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  documentId     String?
+  document       Document?    @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  url            String?
+  scanType       String       @default("page")
+  status         String       @default("queued")
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  errorMessage   String?
+  pagesScanned   Int          @default(0)
+  totalIssues    Int          @default(0)
+  criticalCount  Int          @default(0)
+  highCount      Int          @default(0)
+  mediumCount    Int          @default(0)
+  lowCount       Int          @default(0)
+  autoFixCount   Int          @default(0)
+  aiSuggestedCount Int        @default(0)
+  codePatchCount Int          @default(0)
+  humanReviewCount Int        @default(0)
+  score          Int?
+  triggeredByUserId String?
+  triggerSource  String       @default("manual")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  issues         Issue[]
+  @@index([organizationId, createdAt])
+  @@index([siteId])
+}
+model Issue {
+  id             String   @id @default(cuid())
+  scanId         String
+  scan           Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  organizationId String
+  ruleId         String
+  title          String
+  description    String
+  wcag           String[]
+  severity       String
+  repairType     String
+  confidence     String
+  selectors      String[]
+  htmlSnippet    String
+  helpUrl        String
+  patternHash    String
+  status         String   @default("open")
+  resolvedAt     DateTime?
+  resolvedByUserId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  fix            Fix?
+  @@index([scanId])
+  @@index([organizationId, status])
+}
+model Fix {
+  id             String   @id @default(cuid())
+  issueId        String   @unique
+  issue          Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  organizationId String
+  explanation    String
+  suggestedValue String?
+  codePatch      String?
+  status         String   @default("pending")
+  editedValue    String?
+  approvedByUserId String?
+  approvedBy     User?    @relation("FixApprovedBy", fields: [approvedByUserId], references: [id], onDelete: SetNull)
+  approvedAt     DateTime?
+  generatedByModel String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  @@index([organizationId, status])
+}
+model AuditEvent {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action         String
+  resourceType   String?
+  resourceId     String?
+  metadata       Json?
+  requestId      String?
+  createdAt      DateTime     @default(now())
+  @@index([organizationId, createdAt])
+}
+model UsageRecord {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metric         String
+  quantity       Int
+  periodDate     DateTime     @db.Date
+  createdAt      DateTime     @default(now())
+  @@unique([organizationId, metric, periodDate])
 }

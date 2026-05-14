@@ -1,42 +1,23 @@
 import Link from "next/link";
-
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <div className="text-xl font-semibold tracking-tight">MVP</div>
-        <nav className="flex items-center gap-4">
-          <Link href="/sign-in" className="text-sm font-medium text-slate-700 hover:text-slate-900">
-            Sign in
-          </Link>
-          <Link href="/sign-up" className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
-            Request access
-          </Link>
-        </nav>
-      </header>
-
-      <section className="mx-auto max-w-4xl px-6 pt-16 pb-24 text-center">
-        <p className="mb-4 text-sm font-medium uppercase tracking-wider text-blue-700">
-          Accessibility dashboard for teams
-        </p>
-        <h1 className="text-balance text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl">
-          Identify, prioritize, and repair accessibility issues at scale.
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-balance text-lg text-slate-600">
-          MVP is an AI-assisted dashboard for scanning websites, organizing accessibility issues,
-          creating remediation tasks, and building reports for WCAG and Section 508 readiness.
-        </p>
-        <div className="mt-8 flex justify-center gap-3">
-          <Link href="/sign-up" className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700">
-            Request a demo
-          </Link>
-          <Link href="/sign-in" className="rounded-lg border border-slate-300 bg-white px-6 py-3 font-medium text-slate-700 hover:bg-slate-50">
-            Sign in
-          </Link>
+    <main style={{ minHeight: "100vh", background: "#fdf8f3", fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif", display: "flex", flexDirection: "column" }}>
+      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 40px", borderBottom: "1px solid #f0ebe4", background: "#fff" }}>
+        <div style={{ fontSize: 18, fontWeight: 600, color: "#2d1f14", letterSpacing: "-.3px" }}>MVP<span style={{ color: "#e07830" }}>.</span></div>
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <Link href="/sign-in" style={{ fontSize: 14, color: "#7a6055", textDecoration: "none", fontWeight: 500 }}>Sign in</Link>
+          <Link href="/sign-up" style={{ padding: "8px 18px", background: "#e07830", color: "#fff", borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>Get started</Link>
         </div>
-        <p className="mt-12 text-sm text-slate-500">
-          MVP helps teams identify and manage accessibility issues. Final compliance should be reviewed by qualified accessibility professionals.
-        </p>
+      </header>
+      <section style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 40px" }}>
+        <p style={{ fontSize: 12, fontWeight: 600, color: "#e07830", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 16 }}>Accessibility Platform</p>
+        <h1 style={{ fontSize: 56, fontWeight: 700, color: "#2d1f14", letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20, maxWidth: 700 }}>Identify, repair, and document accessibility issues — at scale.</h1>
+        <p style={{ fontSize: 18, color: "#7a6055", maxWidth: 520, lineHeight: 1.6, marginBottom: 36 }}>AI-assisted scanning and remediation for enterprises and government managing WCAG 2.1 AA and Section 508 readiness.</p>
+        <div style={{ display: "flex", gap: 12 }}>
+          <Link href="/sign-up" style={{ padding: "14px 28px", background: "#e07830", color: "#fff", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>Request access</Link>
+          <Link href="/sign-in" style={{ padding: "14px 28px", background: "rgba(224,120,48,0.08)", color: "#e07830", border: "1px solid rgba(220,100,30,0.2)", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
+        </div>
+        <p style={{ marginTop: 40, fontSize: 12, color: "#c4b0a0", maxWidth: 500 }}>MVP helps identify, prioritize, and repair accessibility issues. Final compliance should be reviewed by qualified accessibility professionals.</p>
       </section>
     </main>
   );
