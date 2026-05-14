@@ -8,10 +8,7 @@ nixPkgs = ["nodejs_20", "openssl"]
 cmds = ["npm install --legacy-peer-deps"]
 
 [phases.build]
-cmds = [
-  "npx prisma generate",
-  "NODE_ENV=production npm run build"
-]
+cmds = ["npx prisma generate", "NODE_ENV=production npm run build"]
 
 [start]
-cmd = "npx prisma db push --accept-data-loss && npx next start -p ${PORT:-3000}"
+cmd = "npx prisma migrate deploy && npx next start -p ${PORT:-3000}"
