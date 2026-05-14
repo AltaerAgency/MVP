@@ -11,4 +11,4 @@ cmds = ["npm install --legacy-peer-deps"]
 cmds = ["npx prisma generate", "NODE_ENV=production npm run build"]
 
 [start]
-cmd = "npx prisma db push --accept-data-loss && npm start"
+cmd = "bash start.sh"
