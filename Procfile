@@ -1,1 +1,1 @@
-web: npx next start -p ${PORT:-3000}
+web: npm run db:deploy && npm start
