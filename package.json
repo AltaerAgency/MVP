@@ -19,7 +19,7 @@
     "@clerk/nextjs": "^6.0.0",
     "@prisma/client": "^5.22.0",
     "axe-core": "^4.10.0",
-    "next": "15.2.4",
+    "next": "15.2.8",
     "playwright": "^1.48.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
