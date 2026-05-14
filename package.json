@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p ${PORT:-3000}",
+    "start:migrate": "npx prisma migrate deploy && next start -p ${PORT:-3000}",
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate && playwright install chromium"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",
